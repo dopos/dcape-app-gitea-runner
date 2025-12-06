@@ -3,7 +3,7 @@
 
 services:
   # This service will extend code from dcape
-  app:
+  runner:
     environment:
       CONFIG_FILE: /config.yaml
       GITEA_INSTANCE_URL: "${INSTANCE_URL}"

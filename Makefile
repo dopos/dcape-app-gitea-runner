@@ -7,19 +7,28 @@ CFG                ?= .env
 CFG_BAK            ?= $(CFG).bak
 
 #- App name
-APP_NAME           ?= service-template
+APP_NAME           ?= runner
 
 #- Docker image name
-IMAGE              ?= ghcr.io/lekovr/service-template
+IMAGE              ?= gitea/act_runner
 
 #- Docker image tag
-IMAGE_VER          ?= 0.1.0
+IMAGE_VER          ?= 0.2.13
 
 # If you need database, uncomment this var
 #USE_DB              = yes
 
 # If you need user name and password, uncomment this var
 #ADD_USER            = yes
+
+#- GITEA_INSTANCE_URL
+INSTANCE_URL       ?= $(AUTH_URL)
+#- GITEA_RUNNER_REGISTRATION_TOKEN
+REGISTRATION_TOKEN ?= fill_by_hand
+#- GITEA_RUNNER_NAME
+RUNNER_NAME        ?= gr
+#- GITEA_RUNNER_LABELS
+RUNNER_LABELS      ?= dcape
 
 # ------------------------------------------------------------------------------
 
@@ -29,14 +38,6 @@ export
 
 -include $(CFG)
 export
-
-# This content will be added to .env
-# define CONFIG_CUSTOM
-# # ------------------------------------------------------------------------------
-# # Sample config for .env
-# #SOME_VAR=value
-#
-# endef
 
 # ------------------------------------------------------------------------------
 # Find and include DCAPE_ROOT/Makefile
@@ -51,10 +52,7 @@ endif
 
 # ------------------------------------------------------------------------------
 
-## Template support code, used once
-use-template:
+config.yaml: CMD = run app generate-config
+config.yaml: dc
 
-.default-deploy: prep
 
-prep:
-	@echo "Just to show we able to attach"
